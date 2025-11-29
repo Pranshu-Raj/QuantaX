@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 const useTradinViewWidget = (
   scriptUrl: string,
@@ -15,7 +15,6 @@ const useTradinViewWidget = (
 
     const script = document.createElement("script");
     script.src = scriptUrl;
-    script.type = "text/javascript";
     script.async = true;
     script.innerHTML = JSON.stringify(config);
 
