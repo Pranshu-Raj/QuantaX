@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Select,
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -10,7 +9,6 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Select } from "@radix-ui/react-select";
-import React from "react";
 import { Controller } from "react-hook-form";
 
 const SelectField = ({
@@ -37,15 +35,20 @@ const SelectField = ({
             : false,
         }}
         render={({ field }) => (
-          <Select>
-            <SelectTrigger className="w-[180ppx]">
-              <SelectValue placeholder="Select a fruit" />
+          <Select value={field.value} onValueChange={field.onChange}>
+            <SelectTrigger className="select-trigger">
+              <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>{label}</SelectLabel>
-              </SelectGroup>
+            <SelectContent className="bg-gray-800 border-gray-600 text-white">
+              {options.map((option) => (
+                <SelectItem
+                  key={option.value} value={option.value} className="focus:bg-gray-600 focus:text-white"
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
             </SelectContent>
+            {error && (<p className="text-red-500 text-sm mt-1">{error.message}</p>)}
           </Select>
         )}
       />
