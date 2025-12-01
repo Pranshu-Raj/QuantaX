@@ -2,10 +2,16 @@
 import InputFields from "@/components/forms/InputFields";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { INVESTMENT_GOALS } from "@/lib/constants";
+import {
+  INVESTMENT_GOALS,
+  PREFERRED_INDUSTRIES,
+  RISK_TOLERANCE_OPTIONS,
+} from "@/lib/constants";
 import { Select } from "@radix-ui/react-select";
 import { useForm } from "react-hook-form";
 import SelectField from "@/components/forms/SelectField";
+import { CountrySelectField } from "@/components/forms/CountrySelectField";
+import FooterLink from "@/components/forms/FooterLink";
 
 const page = () => {
   const {
@@ -52,7 +58,19 @@ const page = () => {
           placeholder="Enter your email"
           register={register}
           error={errors.email}
-          validation={{ required: "Email is required", pattern: /^\S+@\S+$/i, message: "Invalid email address" }}
+          validation={{
+            required: "Email is required",
+            pattern: /^\S+@\S+$/i,
+            message: "Invalid email address",
+          }}
+        />
+
+        <CountrySelectField
+          name="country"
+          label="Country"
+          control={control}
+          error={errors.country}
+          required
         />
 
         <InputFields
@@ -72,15 +90,37 @@ const page = () => {
           options={INVESTMENT_GOALS}
           control={control}
           error={errors.investmentGoals}
-        /> ;
-        
+        />
 
+        <SelectField
+          name="riskTolerance"
+          label="Risk Tolerance"
+          placeholder="Select your risk level"
+          options={RISK_TOLERANCE_OPTIONS}
+          control={control}
+          error={errors.riskTolerance}
+        />
+
+        <SelectField
+          name="preferredIndustry"
+          label="Preferred Industry"
+          placeholder="Select your Preferred Industry"
+          options={PREFERRED_INDUSTRIES}
+          control={control}
+          error={errors.preferredIndustry}
+        />
         <Button
           type="submit"
           disabled={isSubmitting}
           className="yellow-btn w-full mt-5">
           {isSubmitting ? "Submitting..." : "Create Your Investing Journey"}
         </Button>
+
+        <FooterLink
+          text="Already have an account?"
+          linkText="Sign in"
+          href="/sign-in"
+        />
       </form>
     </>
   );
