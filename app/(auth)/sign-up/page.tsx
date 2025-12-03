@@ -7,13 +7,17 @@ import {
   PREFERRED_INDUSTRIES,
   RISK_TOLERANCE_OPTIONS,
 } from "@/lib/constants";
-import { Select } from "@radix-ui/react-select";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import SelectField from "@/components/forms/SelectField";
 import { CountrySelectField } from "@/components/forms/CountrySelectField";
 import FooterLink from "@/components/forms/FooterLink";
+import { signUpWithEmail } from "@/lib/actions/auth.actions";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const page = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,10 +37,11 @@ const page = () => {
   });
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      // Handle form submission logic here
+      const result = await signUpWithEmail(data);
+      if(result.success) router.push('/');
       console.log("Form Data Submitted: ", data);
     } catch (error) {
-      console.error("Error submitting form: ", error);
+      toast.error("Error submitting form: ", {description: (error as Error).message} );
     }
   };
   return (
