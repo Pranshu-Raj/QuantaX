@@ -3,8 +3,12 @@ import { Button } from "@/components/ui/button";
 import InputFields from "@/components/forms/InputFields";
 import { useForm } from "react-hook-form";
 import FooterLink from "@/components/forms/FooterLink";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { signInWithEmail } from "@/lib/actions/auth.actions";
 
 const SignIn = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -19,10 +23,11 @@ const SignIn = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      // Handle form submission logic here
-      console.log("Form Data Submitted: ", data);
-    } catch (error) {
-      console.error("Error submitting form: ", error);
+      const result = await signInWithEmail(data);
+      if (result.success) router.push("/");
+    } catch (e) {
+      console.error(e);
+      toast.error('Sign in failed',{description: e instanceof Error ? e.message : "Fialed to sign in"});
     }
   };
 
@@ -71,8 +76,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-
-// rohitsha08081998_db_user
-// uEJPy3CsRir7Bt3y
-// mongodb+srv://
