@@ -1,9 +1,10 @@
-import nodemailer from 'nodemailer'
-import { WELCOME_EMAIL_TEMPLATE } from './template'
+import * as nodemailer from 'nodemailer'
+import { WELCOME_EMAIL_TEMPLATE, NEWS_SUMMARY_EMAIL_TEMPLATE } from './template'
 
 
 
 type WelcomeEmailData = { email: string; name: string; intro: string };
+type NewsSummaryEmailData = { email: string; date: string; newsContent: string };
 
 // Validate credentials at module load time so error is obvious
 const NODEMAILER_USER = process.env.NODEMAILER_EMAIL;
@@ -41,3 +42,19 @@ export const sendWelcomeEmail = async ({ email, name, intro }: WelcomeEmailData)
     const result = await transporter.sendMail(mailOptions)
     return result
 }
+
+export const sendNewSummaryEmail = async ({ email, date, newsContent }: NewsSummaryEmailData): Promise<void> => {
+    const htmlTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE.replace('{{date}}', date).replace('{{newsContent}}', newsContent);
+
+    const mailOptions = {
+        from: `"Signals News" <signalist@jsmastery.pro>`,
+        to: email,
+        subject: `Market News Summary Today - ${date}.`,
+        text: `Today's market news summary from Signalist`,
+        html: htmlTemplate,
+    }
+
+    await transporter.sendMail(mailOptions)
+    return
+}
+
