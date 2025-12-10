@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Link from "next/link";
 import Image from "next/image";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/better-auth/auth";
 import { headers } from "next/headers";
 
