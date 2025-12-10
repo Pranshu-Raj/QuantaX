@@ -35,6 +35,7 @@ const page = () => {
     },
     mode: "onBlur",
   });
+
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const result = await signUpWithEmail(data);
@@ -44,6 +45,7 @@ const page = () => {
       toast.error("Error submitting form: ", {description: (error as Error).message} );
     }
   };
+  
   return (
     <>
       <h1 className="form-title">Sign Up & Personalize</h1>
